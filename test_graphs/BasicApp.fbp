@@ -1,0 +1,19 @@
+# Customizing the basic server with app-specific middleware
+'3030' -> PORT Server(xpress/Server)
+Server APP -> APP Middle(xpress/TestMiddleware)
+
+# Splitting the flow into several routes
+Middle APP -> APP HelloRoute(xpress/Route)
+'get /hello' -> PATTERN HelloRoute
+Middle APP -> APP WorldRoute(xpress/Route)
+'post /world' -> PATTERN WorldRoute
+
+# Route-specific pipelines
+HelloRoute REQ -> REQ Hello(xpress/TestHello)
+WorldRoute REQ -> REQ World(xpress/TestWorld)
+
+# Server-level errors
+Server ERROR -> IN Logger(xpress/TestLogger)
+Middle ERROR -> IN Logger
+HelloRoute ERROR -> IN Logger
+WorldRoute ERROR -> IN Logger

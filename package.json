@@ -1,0 +1,35 @@
+{
+  "name": "noflo-xpress",
+  "version": "0.0.1",
+  "description": "High-level Express.js components for NoFlo",
+  "author": "Rituwall Inc.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/trustmaster/noflo-xpress.git"
+  },
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "coffee-script": "~1.7.1",
+    "express": "~4.4.3",
+    "noflo": "^0.5.6",
+    "uuid": "~1.4.1"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "coffeelint": "*",
+    "mocha": "~1.20.0"
+  },
+  "scripts": {
+    "pretest": "coffeelint -r components test_components spec",
+    "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/*.coffee"
+  },
+  "noflo": {
+    "icon": "globe",
+    "loader": "ComponentLoader.coffee",
+    "components": {
+      "Route": "components/Route.coffee",
+      "Router": "components/Router.coffee",
+      "Server": "components/Server.coffee"
+    }
+  }
+}
