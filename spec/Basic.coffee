@@ -9,7 +9,11 @@ getResultJSON = (res, callback) ->
   res.on 'data', (chunk) ->
     data += chunk
   res.on 'end', ->
-    callback JSON.parse data
+    try
+      json = JSON.parse data
+      callback json
+    catch e
+      throw new Error e.message + ". Body:" + data
 
 describe 'A basic Express server in NoFlo', ->
   net = null
@@ -51,8 +55,9 @@ describe 'A basic Express server in NoFlo', ->
         'Content-Length': reqData.length
     try
       req = http.request options, (res) ->
+        if res.statusCode isnt 201
+          return done new Error "Invalid status code: #{res.statusCode}"
         getResultJSON res, (json) ->
-          return done json if res.statusCode is 500
           chai.expect(json).to.be.an 'object'
           chai.expect(json.email).to.be.a 'string'
           chai.expect(json.email).to.equal newUserEmail

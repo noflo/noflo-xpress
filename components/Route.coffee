@@ -1,11 +1,11 @@
 noflo = require 'noflo'
 uuid = require 'uuid'
 
-exports.getComponent = ->
+exports.getComponent = (metadata) ->
   component = new noflo.Component
   component.description = "Creates a request route on the application graph"
 
-  validVerbs = ['all', 'get', 'post', 'put', 'delete']
+  validVerbs = ['all', 'get', 'post', 'put', 'delete', 'options']
   component.verb = 'all'
   component.path = '/'
   component.filters = []
@@ -22,12 +22,7 @@ exports.getComponent = ->
   component.inPorts.add 'filter',
     datatype: 'function'
     description: 'Route filter middleware (omitted by default)'
-    required: true
-    default: null
-    process: (event, payload) ->
-      return unless event is 'data'
-      component.filters.push payload if payload isnt null
-
+    required: metadata and 'filter' of metadata and metadata.filter is 'on'
   component.outPorts.add 'req',
     datatype: 'object'
     description: 'Express Request object (contains response too)'
@@ -40,13 +35,10 @@ exports.getComponent = ->
     datatype: 'object'
     required: false
 
-  noflo.helpers.MultiError component, 'Route'
-
   noflo.helpers.WirePattern component,
     in: 'app'
     out: ['req', 'res']
-    params: ['pattern']
-    async: true
+    params: ['pattern', 'filter']
     forwardGroups: true
   , (app, groups, outs, callback) ->
     unless app
@@ -59,6 +51,10 @@ exports.getComponent = ->
     unless component.path
       component.error new Error "Incorrect HTTP path: '#{component.path}'"
     return callback no if component.hasErrors
+
+    if typeof component.params.filter is 'function'
+      # TODO multiple filters support
+      component.filters.push component.params.filter
 
     requestHandler = (req, res, next) ->
       id = uuid()
@@ -79,12 +75,10 @@ exports.getComponent = ->
         outs.res.disconnect()
 
     func = app[component.verb]
-    args = [ component.path ]
-      .concat component.filters
-      .concat [ requestHandler ]
 
-    func.apply app, args
+    for filter in component.filters
+      func.call app, component.path, filter
 
-    callback()
+    func.call app, component.path, requestHandler
 
   return component

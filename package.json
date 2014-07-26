@@ -11,7 +11,7 @@
   "dependencies": {
     "coffee-script": "~1.7.1",
     "express": "~4.4.3",
-    "noflo": "^0.5.6",
+    "noflo": "~0.5.6",
     "uuid": "~1.4.1"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
   },
   "scripts": {
     "pretest": "coffeelint -r components test_components spec",
-    "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 10000 spec/*.coffee"
+    "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 2000 spec/*.coffee"
   },
   "noflo": {
     "icon": "globe",

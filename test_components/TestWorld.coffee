@@ -15,5 +15,5 @@ exports.getComponent = ->
     req.on 'data', (chunk) ->
       data += chunk
     req.on 'end', ->
-      req.res.send 200, data
+      req.res.send 201, data
       callback()
