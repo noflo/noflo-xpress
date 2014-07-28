@@ -16,11 +16,11 @@ getResultJSON = (res, callback) ->
       throw new Error e.message + ". Body:" + data
 
 
-describe 'An Express server in NoFlo with Routers and Filters', ->
+describe 'An Express server in NoFlo with Route Groups and Filters', ->
   net = null
 
   before (done) ->
-    noflo.loadFile 'test_graphs/FilterRouter.fbp', (network) ->
+    noflo.loadFile 'test_graphs/FiltersGroups.fbp', (network) ->
       net = network
       done()
   after (done) ->

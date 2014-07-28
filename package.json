@@ -1,6 +1,6 @@
 {
   "name": "noflo-xpress",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "High-level Express.js components for NoFlo",
   "author": "Rituwall Inc.",
   "repository": {
@@ -28,6 +28,7 @@
     "loader": "ComponentLoader.coffee",
     "components": {
       "Route": "components/Route.coffee",
+      "RouteGroup": "components/RouteGroup.coffee",
       "Router": "components/Router.coffee",
       "Server": "components/Server.coffee"
     }

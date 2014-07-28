@@ -1,13 +1,12 @@
-# Customizing the basic server with app-specific middleware
-Server(xpress/Server) APP -> APP Middle(xpress/TestMiddleware)
-'3031' -> PORT Server
+# Adding an Express server listening on a port
+'3031' -> PORT Server(xpress/Server)
 
 # Splitting the flow into several routes
-Middle APP -> APP EndpointRoute(xpress/Route:filter=on)
+Server APP -> APP EndpointRoute(xpress/Route:filter=on)
 'get /endpoint' -> PATTERN EndpointRoute
-Middle APP -> APP HelloRoute(xpress/Route)
+Server APP -> APP HelloRoute(xpress/Route)
 'get /hello' -> PATTERN HelloRoute
-Middle APP -> APP ProtectedArea(xpress/Router:path=on,filter=on)
+Server APP -> APP ProtectedArea(xpress/RouteGroup:path=on,filter=on)
 '/admin' -> PATH ProtectedArea
 ProtectedArea ROUTER -> APP DashboardRoute(xpress/Route)
 'get /dashboard' -> PATTERN DashboardRoute
@@ -30,7 +29,5 @@ AddUserRoute REQ -> REQ AddUser(xpress/TestWorld)
 
 # Server-level errors
 Server ERROR -> IN Logger(xpress/TestLogger)
-Middle ERROR -> IN Logger
 HelloRoute ERROR -> IN Logger
 EndpointRoute ERROR -> IN Logger
-

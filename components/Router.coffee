@@ -1,13 +1,16 @@
 noflo = require 'noflo'
 express = require 'express'
+uuid = require 'uuid'
 
 exports.getComponent = (metadata) ->
   component = new noflo.Component
-  component.description = "Creates a branch to apply filters
-  for a set of routes"
+  component.description = "Static index-based Express router"
 
+  validVerbs = ['all', 'get', 'post', 'put', 'delete', 'options']
   component.path = '/'
   component.filters = []
+  component.patterns = []
+  component.handlers = []
 
   component.inPorts.add 'app',
     datatype: 'object'
@@ -21,33 +24,77 @@ exports.getComponent = (metadata) ->
     datatype: 'function'
     description: 'Route filter middleware (omitted by default)'
     required: metadata and 'filter' of metadata and metadata.filter is 'on'
+  component.inPorts.add 'pattern',
+    datatype: 'string'
+    description: "Request patterns as `verb /path`
+    or just `/path` meaning verb is `all`"
+    addressable: true
+    required: true
+    process: (event, payload, index) ->
+      return unless event is 'data'
+      pat = payload.split /\s+/
+      verb = if pat.length is 2 then pat[0] else 'all'
+      path = if pat.length is 2 then pat[1] else pat[0]
+      ok = true
+      unless validVerbs.indexOf(verb) >= 0
+        component.error new Error "Invalid HTTP verb: '#{verb}'"
+        ok = false
+      unless path
+        component.error new Error "Incorrect HTTP path: '#{path}'"
+        ok = false
+      return unless ok
+      component.patterns.push
+        verb: verb
+        path: path
+  component.outPorts.add 'req',
+    datatype: 'object'
+    description: 'Express Request objects (contain responses)'
+    addressable: true
   component.outPorts.add 'router',
     datatype: 'object'
     description: 'Express Router object'
-    required: true
+    required: false
   component.outPorts.add 'error',
     datatype: 'object'
     required: false
 
   noflo.helpers.WirePattern component,
     in: 'app'
-    out: 'router'
+    out: []
     params: ['path', 'filter']
-    forwardGroups: true
   , (app, groups, out) ->
     unless app
-      component.error new Error 'Invalid Express app or router'
+      component.error new Error "Invalid Express app or router"
+    unless component.patterns.length
+      component.error new Error "No route patterns provided"
 
+    component.handlers = []
     router = express.Router()
 
     if typeof component.params.filter is 'function'
       # TODO multiple filters support
       router.use component.params.filter
 
+    # Adding the routes here
+    for pat, index in component.patterns
+      do (pat, index) ->
+        component.handlers.push (req, res, next) ->
+          id = uuid()
+          req.uuid = id
+          res.uuid = id
+          component.outPorts.req.beginGroup id, index
+          component.outPorts.req.send req, index
+          component.outPorts.req.endGroup index
+          component.outPorts.req.disconnect index
+
+        router[pat.verb].call router, pat.path, component.handlers[index]
+
     if component.params.path
       app.use component.params.path, router
     else
       app.use router
-    out.send router
+
+    if component.outPorts.router.isAttached()
+      component.outPorts.router.send router
 
   return component

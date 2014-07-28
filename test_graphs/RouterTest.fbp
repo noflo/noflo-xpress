@@ -1,0 +1,21 @@
+# Static routing. It is currently at the top because NoFlo can't
+# prioritize IIPs correctly yet
+'get /hello' -> PATTERN[0] Router(xpress/Router:filter=on)
+Router REQ[0] -> REQ Hello(xpress/TestHello)
+'post /world' -> PATTERN[1] Router
+Router REQ[1] -> REQ World(xpress/TestWorld)
+
+# Adding the app server
+'3032' -> PORT Server(xpress/Server)
+
+# Passing a filter (optional) to the router
+Server APP -> NEW AuthFilter(xpress/TestFilter)
+'noflo' -> PASS AuthFilter
+AuthFilter FILTER -> FILTER Router
+
+# Finalizing the router by saving it in the app
+Server APP -> APP Router
+
+# Server-level errors
+Server ERROR -> IN Logger(xpress/TestLogger)
+Router ERROR -> IN Logger
