@@ -7,7 +7,7 @@ module.exports = (loader, done) ->
     "components"
   ]
   for dir in dirs
-    for file in fs.readdirSync dir
+    for file in fs.readdirSync __dirname + "/#{dir}"
       m = file.match /^(\w+)\.coffee$/
       continue unless m
       path = __dirname + "/#{dir}/#{file}"
