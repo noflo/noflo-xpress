@@ -30,22 +30,6 @@ exports.getComponent = (metadata) ->
     or just `/path` meaning verb is `all`"
     addressable: true
     required: true
-    process: (event, payload, index) ->
-      return unless event is 'data'
-      pat = payload.split /\s+/
-      verb = if pat.length is 2 then pat[0] else 'all'
-      path = if pat.length is 2 then pat[1] else pat[0]
-      ok = true
-      unless validVerbs.indexOf(verb) >= 0
-        component.error new Error "Invalid HTTP verb: '#{verb}'"
-        ok = false
-      unless path
-        component.error new Error "Incorrect HTTP path: '#{path}'"
-        ok = false
-      return unless ok
-      component.patterns.push
-        verb: verb
-        path: path
   component.outPorts.add 'req',
     datatype: 'object'
     description: 'Express Request objects (contain responses)'
@@ -61,10 +45,27 @@ exports.getComponent = (metadata) ->
   noflo.helpers.WirePattern component,
     in: 'app'
     out: []
-    params: ['path', 'filter']
+    params: ['path', 'filter', 'pattern']
   , (app, groups, out) ->
     unless app
       component.error new Error "Invalid Express app or router"
+
+    for index, pat of component.params.pattern
+      pat = pat.split /\s+/
+      verb = if pat.length is 2 then pat[0] else 'all'
+      path = if pat.length is 2 then pat[1] else pat[0]
+      ok = true
+      unless validVerbs.indexOf(verb) >= 0
+        component.error new Error "Invalid HTTP verb: '#{verb}'"
+        ok = false
+      unless path
+        component.error new Error "Incorrect HTTP path: '#{path}'"
+        ok = false
+      continue unless ok
+      component.patterns[Number index] =
+        verb: verb
+        path: path
+
     unless component.patterns.length
       component.error new Error "No route patterns provided"
 
