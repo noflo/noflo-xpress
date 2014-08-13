@@ -44,7 +44,7 @@ exports.getComponent = (metadata) ->
 
   noflo.helpers.WirePattern component,
     in: 'app'
-    out: []
+    out: 'router'
     params: ['path', 'filter', 'pattern']
   , (app, groups, out) ->
     unless app
@@ -79,7 +79,7 @@ exports.getComponent = (metadata) ->
     # Adding the routes here
     for pat, index in component.patterns
       do (pat, index) ->
-        component.handlers.push (req, res, next) ->
+        component.handlers[index] = (req, res, next) ->
           id = uuid()
           req.uuid = id
           res.uuid = id
@@ -96,6 +96,6 @@ exports.getComponent = (metadata) ->
       app.use router
 
     if component.outPorts.router.isAttached()
-      component.outPorts.router.send router
+      out.send router
 
   return component

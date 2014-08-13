@@ -1,6 +1,6 @@
 {
   "name": "noflo-xpress",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "High-level Express.js components for NoFlo",
   "author": "Rituwall Inc.",
   "repository": {
