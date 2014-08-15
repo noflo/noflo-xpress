@@ -70,11 +70,12 @@ exports.getComponent = (metadata) ->
       component.error new Error "No route patterns provided"
 
     component.handlers = []
+    component.filters = []
     router = express.Router()
 
     if typeof component.params.filter is 'function'
       # TODO multiple filters support
-      router.use component.params.filter
+      component.filters.push component.params.filter
 
     # Adding the routes here
     for pat, index in component.patterns
@@ -88,7 +89,10 @@ exports.getComponent = (metadata) ->
           component.outPorts.req.endGroup index
           component.outPorts.req.disconnect index
 
-        router[pat.verb].call router, pat.path, component.handlers[index]
+        func = router[pat.verb]
+        for filter in component.filters
+          func.call router, pat.path, filter
+        func.call router, pat.path, component.handlers[index]
 
     if component.params.path
       app.use component.params.path, router
