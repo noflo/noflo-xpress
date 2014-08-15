@@ -80,6 +80,7 @@ exports.getComponent = (metadata) ->
     # Adding the routes here
     for pat, index in component.patterns
       do (pat, index) ->
+        return if pat is undefined
         component.handlers[index] = (req, res, next) ->
           id = uuid()
           req.uuid = id
