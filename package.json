@@ -28,7 +28,6 @@
     "loader": "ComponentLoader.coffee",
     "components": {
       "Route": "components/Route.coffee",
-      "RouteGroup": "components/RouteGroup.coffee",
       "Router": "components/Router.coffee",
       "Server": "components/Server.coffee"
     }
