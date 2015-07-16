@@ -19,7 +19,7 @@ describe 'A static Express Router in NoFlo', ->
   net = null
 
   before (done) ->
-    noflo.loadFile 'test_graphs/RouterTest.fbp', (network) ->
+    noflo.loadFile 'test_graphs/RouterTest.fbp', {}, (network) ->
       net = network
       done()
   after (done) ->

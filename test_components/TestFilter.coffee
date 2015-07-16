@@ -11,7 +11,7 @@ exports.getComponent = ->
       if req.get('Pass') is c.pass
         return next()
       else
-        return res.send 403
+        return res.sendStatus 403
     c.outPorts.filter.disconnect()
   c.outPorts.add 'filter', datatype: 'function'
   c.outPorts.add 'error', datatype: 'object'
