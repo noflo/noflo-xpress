@@ -19,11 +19,11 @@ exports.getComponent = (metadata) ->
   component.inPorts.add 'path',
     datatype: 'string'
     description: "Restrict this branch to a specific URL /root"
-    required: metadata and 'path' of metadata and metadata.path is 'on'
+    required: metadata?.path is 'on'
   component.inPorts.add 'filter',
     datatype: 'function'
     description: 'Route filter middleware (omitted by default)'
-    required: metadata and 'filter' of metadata and metadata.filter is 'on'
+    required: metadata?.filter is 'on'
   component.inPorts.add 'pattern',
     datatype: 'string'
     description: "Request patterns as `verb /path`
