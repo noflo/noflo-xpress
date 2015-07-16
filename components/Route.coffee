@@ -22,7 +22,7 @@ exports.getComponent = (metadata) ->
   component.inPorts.add 'filter',
     datatype: 'function'
     description: 'Route filter middleware (omitted by default)'
-    required: metadata and 'filter' of metadata and metadata.filter is 'on'
+    required: metadata?.filter is 'on'
   component.outPorts.add 'req',
     datatype: 'object'
     description: 'Express Request object (contains response too)'
