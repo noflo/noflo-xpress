@@ -3,17 +3,15 @@
 Server APP -> APP Middle(xpress/TestMiddleware)
 
 # Splitting the flow into several routes
-Middle APP -> APP HelloRoute(xpress/Route)
-'get /hello' -> PATTERN HelloRoute
-Middle APP -> APP WorldRoute(xpress/Route)
-'post /world' -> PATTERN WorldRoute
+Middle APP -> APP Router(xpress/Router)
+'get /hello' -> PATTERN[0] Router
+'post /world' -> PATTERN[1] Router
 
 # Route-specific pipelines
-HelloRoute REQ -> REQ Hello(xpress/TestHello)
-WorldRoute REQ -> REQ World(xpress/TestWorld)
+Router REQ[0] -> REQ Hello(xpress/TestHello)
+Router REQ[1] -> REQ World(xpress/TestWorld)
 
 # Server-level errors
 Server ERROR -> IN Logger(xpress/TestLogger)
 Middle ERROR -> IN Logger
-HelloRoute ERROR -> IN Logger
-WorldRoute ERROR -> IN Logger
+Router ERROR -> IN Logger

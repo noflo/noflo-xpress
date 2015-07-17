@@ -1,7 +1,7 @@
 # Adding the app server
 '3032' -> PORT Server(xpress/Server)
-Server APP -> APP Private(xpress/Router:filter=on)
-Server APP -> APP Public(xpress/Router:path=on)
+Server APP -> APP Private(xpress/FilterRouter)
+Server APP -> APP Public(xpress/PathRouter)
 
 # Static routing
 # '/private' -> PATH Private
@@ -17,9 +17,9 @@ Public REQ[0] -> REQ Hello(xpress/TestHello)
 Public REQ[1] -> REQ World(xpress/TestWorld)
 
 # Passing a filter (optional) to the router
-Server APP -> NEW AuthFilter(xpress/TestFilter)
+'[]' -> FILTERS AuthFilter(xpress/TestFilter)
 'noflo' -> PASS AuthFilter
-AuthFilter FILTER -> FILTER Private
+AuthFilter FILTERS -> FILTERS Private
 
 # Server-level errors
 Server ERROR -> IN Logger(xpress/TestLogger)
