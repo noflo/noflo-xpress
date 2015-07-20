@@ -5,7 +5,7 @@
   "author": "Rituwall Inc.",
   "repository": {
     "type": "git",
-    "url": "git://github.com/trustmaster/noflo-xpress.git"
+    "url": "git://github.com/noflo/noflo-xpress.git"
   },
   "license": "BSD-2-Clause",
   "dependencies": {
