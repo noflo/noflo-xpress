@@ -21,6 +21,7 @@ exports.getComponent = ->
 
   component.outPorts.add 'app',
     datatype: 'object'
+    type: 'http://expressjs.com/4x/api.html#app'
     required: true
     description: "Express Application"
   component.outPorts.add 'error', datatype: 'object'

@@ -13,6 +13,7 @@ exports.getComponent = ->
 
   component.inPorts.add 'app',
     datatype: 'object'
+    type: 'http://expressjs.com/4x/api.html#app'
     description: 'Express Application or Router'
     required: true
   component.inPorts.add 'pattern',
@@ -23,6 +24,7 @@ exports.getComponent = ->
     required: true
   component.outPorts.add 'req',
     datatype: 'object'
+    type: 'http://expressjs.com/4x/api.html#req'
     description: 'Express Request objects (contain responses)'
     addressable: true
   component.outPorts.add 'error',
