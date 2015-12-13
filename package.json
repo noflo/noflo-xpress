@@ -15,8 +15,8 @@
     "uuid": "2.0.1"
   },
   "devDependencies": {
-    "chai": "3.4.0",
-    "coffeelint": "1.13.0",
+    "chai": "3.4.1",
+    "coffeelint": "1.14.2",
     "mocha": "2.3.4"
   },
   "scripts": {
