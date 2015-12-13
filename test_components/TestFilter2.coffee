@@ -8,6 +8,7 @@ exports.getComponent = ->
     filters = if Array.isArray(payload) then payload else []
     filters.push (req, res, next) ->
       res.set 'X-Foo', 'bar'
+      res.set 'X-ID', req.uuid
       next()
     c.outPorts.filters.send filters
     c.outPorts.filters.disconnect()

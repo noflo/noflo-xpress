@@ -65,15 +65,18 @@ exports.getProcess = (component, hasPath, hasFilter) ->
       do (pat, index) ->
         return if pat is undefined
         component.handlers[index] = (req, res, next) ->
-          id = uuid()
-          req.uuid = id
-          res.uuid = id
-          component.outPorts.req.beginGroup id, index
+          component.outPorts.req.beginGroup req.uuid, index
           component.outPorts.req.send req, index
           component.outPorts.req.endGroup index
           component.outPorts.req.disconnect index
 
         func = router[pat.verb]
+        # Set request uuid
+        func.call router, pat.path, (req, res, next) ->
+          id = uuid.v4()
+          req.uuid = id
+          res.uuid = id
+          next()
         if hasFilter and Array.isArray component.params.filters
           for filter in component.params.filters
             func.call router, pat.path, filter

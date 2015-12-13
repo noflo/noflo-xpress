@@ -35,6 +35,7 @@ describe 'A Combo router with multiple filters', ->
     try
       req = http.request options, (res) ->
         chai.expect(res.headers['x-foo']).to.equal 'bar'
+        chai.expect(res.headers['x-id']).to.be.a 'string'
         chai.expect(res.statusCode).to.equal 403
         done()
       req.end()
