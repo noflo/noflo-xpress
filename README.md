@@ -5,6 +5,11 @@ High-level Express.js components for NoFlo
 
 ## Changelog
 
+#### 0.2.1
+
+ - `req.uuid` and `res.uuid` are set by routers before applying filters, so
+ request id is now available in filters as well as in downstream processes.
+
 #### 0.2.0
 
  - Split `Router` into 4 components with different inports: `Router`,
