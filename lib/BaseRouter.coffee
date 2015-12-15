@@ -2,7 +2,7 @@ express = require 'express'
 uuid = require 'uuid'
 noflo = require 'noflo'
 
-validVerbs = ['all', 'get', 'post', 'put', 'delete', 'options']
+validVerbs = ['all', 'get', 'post', 'put', 'delete', 'options', 'patch', 'head']
 
 exports.getComponent = ->
   component = new noflo.Component
