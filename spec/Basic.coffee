@@ -19,7 +19,8 @@ describe 'A basic Express server in NoFlo', ->
   net = null
 
   before (done) ->
-    noflo.loadFile 'test_graphs/BasicApp.fbp', {}, (network) ->
+    noflo.loadFile 'test_graphs/BasicApp.fbp', (err, network) ->
+      return done err if err
       net = network
       done()
   after (done) ->

@@ -1,6 +1,6 @@
 {
   "name": "noflo-xpress",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "High-level Express.js components for NoFlo",
   "author": "Rituwall Inc.",
   "repository": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "coffee-script": "1.10.0",
     "express": "4.13.4",
-    "noflo": "0.5.22",
+    "noflo": "0.7.2",
     "uuid": "2.0.1"
   },
   "devDependencies": {
@@ -22,16 +22,5 @@
   "scripts": {
     "pretest": "coffeelint -r components test_components spec",
     "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 2000 spec/*.coffee"
-  },
-  "noflo": {
-    "icon": "globe",
-    "loader": "ComponentLoader.coffee",
-    "components": {
-      "ComboRouter": "components/ComboRouter.coffee",
-      "FilterRouter": "components/FilterRouter.coffee",
-      "PathRouter": "components/PathRouter.coffee",
-      "Router": "components/Router.coffee",
-      "Server": "components/Server.coffee"
-    }
   }
 }

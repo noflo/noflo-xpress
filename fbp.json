@@ -1,0 +1,58 @@
+[
+  {
+    "name": "xpress",
+    "description": "High-level Express.js components for NoFlo",
+    "runtime": "noflo",
+    "noflo": {
+      "loader": "ComponentLoader.coffee"
+    },
+    "base": "",
+    "icon": "globe",
+    "components": [
+      {
+        "name": "ComboRouter",
+        "path": "components/ComboRouter.coffee",
+        "source": "components/ComboRouter.coffee",
+        "elementary": true
+      },
+      {
+        "name": "FilterRouter",
+        "path": "components/FilterRouter.coffee",
+        "source": "components/FilterRouter.coffee",
+        "elementary": true
+      },
+      {
+        "name": "PathRouter",
+        "path": "components/PathRouter.coffee",
+        "source": "components/PathRouter.coffee",
+        "elementary": true
+      },
+      {
+        "name": "Router",
+        "path": "components/Router.coffee",
+        "source": "components/Router.coffee",
+        "elementary": true
+      },
+      {
+        "name": "Server",
+        "path": "components/Server.coffee",
+        "source": "components/Server.coffee",
+        "elementary": true
+      }
+    ]
+  },
+  {
+    "name": "",
+    "description": "Flow-Based Programming environment for JavaScript",
+    "runtime": "noflo",
+    "base": "node_modules/noflo",
+    "components": [
+      {
+        "name": "Graph",
+        "path": "node_modules/noflo/components/Graph.js",
+        "source": "node_modules/noflo/components/Graph.js",
+        "elementary": true
+      }
+    ]
+  }
+]
