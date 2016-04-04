@@ -40,19 +40,5 @@
         "elementary": true
       }
     ]
-  },
-  {
-    "name": "",
-    "description": "Flow-Based Programming environment for JavaScript",
-    "runtime": "noflo",
-    "base": "node_modules/noflo",
-    "components": [
-      {
-        "name": "Graph",
-        "path": "node_modules/noflo/components/Graph.js",
-        "source": "node_modules/noflo/components/Graph.js",
-        "elementary": true
-      }
-    ]
   }
 ]
