@@ -12,7 +12,7 @@
     "coffee-script": "1.10.0",
     "express": "4.13.4",
     "noflo": "0.5.22",
-    "uuid": "2.0.1"
+    "uuid": "2.0.2"
   },
   "devDependencies": {
     "chai": "3.5.0",
