@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "coffeelint": "1.15.0",
+    "coffeelint": "1.15.7",
     "mocha": "2.4.5"
   },
   "scripts": {
