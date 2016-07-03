@@ -88,17 +88,14 @@ exports.getComponent = ->
     for pat, index in patterns
       do (pat, index) ->
         return if pat is undefined
+
+        id = uuid.v4()
         handlers[index] = (req, res, next) ->
-          openBracket = new noflo.IP 'openBracket', req.uuid, index: index
-          closeBracket = new noflo.IP 'closeBracket', req.uuid, index: index
-          output.ports.req.send openBracket, index
-          output.ports.req.send req, index
-          output.ports.req.send closeBracket, index
+          output.ports.req.send new noflo.IP('data', req, scope: id), index
 
         func = router[pat.verb]
         # Set request uuid
         func.call router, pat.path, (req, res, next) ->
-          id = uuid.v4()
           req.uuid = id
           res.uuid = id
           next()
