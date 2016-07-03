@@ -5,6 +5,17 @@ High-level Express.js components for NoFlo
 
 ## Changelog
 
+#### 0.3.0
+ - using process api in components & test_components
+ - components/Router does not store state, components/Server saves server as scoped state for  shutdown()
+ - using noflo 8
+ - only 1 router for everything, removed lib/
+ - bumped express, uuid, and mocha dependencies
+ - testing on 4.2 and 6.2 on Travis
+
+#### 0.2.2
+ - bumped chai, noflo, and mocha dependencies
+
 #### 0.2.1
 
  - `req.uuid` and `res.uuid` are set by routers before applying filters, so
