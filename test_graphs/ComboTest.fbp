@@ -1,6 +1,6 @@
 # Adding the app server
 '3031' -> PORT Server(xpress/Server)
-Server APP -> APP Router(xpress/ComboRouter)
+Server APP -> APP Router(xpress/Router)
 
 # Static routing
 '/public' -> PATH Router

@@ -2,10 +2,17 @@ noflo = require 'noflo'
 
 exports.getComponent = ->
   c = new noflo.Component
-  c.description = "Simply logs everything to the console"
-  c.inPorts.add 'in',
-    datatype: 'all'
-    description: 'Data to be logged'
-    proc: (event, payload) ->
-      console.log payload if event is 'data'
-  c
+    description: 'Simply logs everything to the console'
+    inPorts:
+      in:
+        datatype: 'all'
+        description: 'Data to be logged'
+
+  c.process (input, output) ->
+    return unless input.hasStream 'in'
+    data = input.buffer.get('in')
+      .filter (ip) -> ip.type is 'data'
+      .pop()
+
+    console.log data if data?
+    output.done()
