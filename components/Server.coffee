@@ -19,7 +19,7 @@ exports.getComponent = ->
   c.servers = []
 
   c.shutdown = ->
-    for server in c.server
+    for server in c.servers
       server._connections = 0
       server.close()
 

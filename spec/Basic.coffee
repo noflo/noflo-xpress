@@ -19,12 +19,12 @@ describe 'A basic Express server in NoFlo', ->
   net = null
 
   before (done) ->
-    noflo.loadFile 'test_graphs/BasicApp.fbp', {}, (network) ->
+    noflo.loadFile 'test_graphs/BasicApp.fbp', {}, (err, network) ->
       net = network
       done()
   after (done) ->
-    net.stop()
-    done()
+    net.stop ->
+      done()
 
   it 'should handle GET', (done) ->
     options =
