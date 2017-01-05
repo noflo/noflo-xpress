@@ -23,7 +23,7 @@ describe 'A static Express Router in NoFlo', ->
       net = network
       done()
   after (done) ->
-    net.stop()
+    net.stop() if net
     done()
 
   describe 'for unfiltered routes', ->

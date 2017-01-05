@@ -23,7 +23,7 @@ describe 'A basic Express server in NoFlo', ->
       net = network
       done()
   after (done) ->
-    net.stop()
+    net.stop() if net
     done()
 
   it 'should handle GET', (done) ->
