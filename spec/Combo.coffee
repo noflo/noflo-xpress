@@ -19,11 +19,12 @@ describe 'A Combo router with multiple filters', ->
   net = null
 
   before (done) ->
-    noflo.loadFile 'test_graphs/ComboTest.fbp', {}, (network) ->
+    noflo.loadFile 'test_graphs/ComboTest.fbp', {}, (err, network) ->
+      return done err if err
       net = network
       done()
   after (done) ->
-    net.stop()
+    net.stop() if net
     done()
 
   it 'should block unauthorized requests', (done) ->

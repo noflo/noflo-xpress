@@ -1,4 +1,12 @@
 language: node_js
 node_js:
-- '0.10'
+- '4.6'
 script: npm test
+deploy:
+  provider: npm
+  email: henri.bergius@iki.fi
+  api_key:
+    secure: YnVUDCQqKxP6z/1Ztvq562lVFzMdeH5lyZabfYAg/8dZcu9DF3M6CACQtY7UvLY7zjgTP2++q+UQ5QpQ7ln4iaO1bpCZHuBnWnl0LjSveEcpEB5WleMn5ib2ZZw2F8M/7hSXlkfHZbBWBifw7/SGFk/suTkZcjytItd4GBCmu7c=
+  on:
+    tags: true
+    repo: noflo/noflo-xpress
