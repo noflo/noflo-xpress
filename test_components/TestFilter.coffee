@@ -16,8 +16,7 @@ exports.getComponent = ->
     filters: ['filters']
 
   c.process (input, output) ->
-    return unless input.has 'pass'
-    return unless input.has 'filters'
+    return unless input.hasData 'pass', 'filters'
 
     pass = input.getData 'pass'
     filters = input.getData 'filters'

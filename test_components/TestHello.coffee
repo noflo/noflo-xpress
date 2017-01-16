@@ -13,7 +13,7 @@ exports.getComponent = ->
     filters: ['filters']
 
   c.process (input, output) ->
-    return unless input.has 'req'
+    return unless input.hasData 'req'
     req = input.getData 'req'
     req.res.json 'Hello'
     output.done()

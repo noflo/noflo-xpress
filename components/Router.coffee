@@ -45,9 +45,9 @@ exports.getComponent = ->
     hasFilter = false
 
     # precondition
-    return unless input.has 'app'
-    return unless input.has 'filters' if input.ports.filters.isAttached()
-    return unless input.has 'path' if input.ports.path.isAttached()
+    return unless input.hasData 'app'
+    return unless input.hasData 'filters' if input.ports.filters.isAttached()
+    return unless input.hasData 'path' if input.ports.path.isAttached()
 
     # if attached, it has a filter
     if input.ports.filters.isAttached()

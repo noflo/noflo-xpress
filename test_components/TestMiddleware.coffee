@@ -17,7 +17,7 @@ exports.getComponent = ->
         description: 'Configured Express Application'
 
   c.process (input, output) ->
-    return unless input.has 'app'
+    return unless input.hasData 'app'
     app = input.getData 'app'
 
     try

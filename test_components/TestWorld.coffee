@@ -11,7 +11,7 @@ exports.getComponent = ->
         datatype: 'object'
 
   c.process (input, output) ->
-    return unless input.has 'req'
+    return unless input.hasData 'req'
     req = input.getData 'req'
 
     data = ''

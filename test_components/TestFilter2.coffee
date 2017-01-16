@@ -13,7 +13,7 @@ exports.getComponent = ->
     filters: ['filters']
 
   c.process (input, output) ->
-    return unless input.has 'filters'
+    return unless input.hasData 'filters'
 
     filters = input.getData 'filters'
     filters = [] unless Array.isArray(filters)
