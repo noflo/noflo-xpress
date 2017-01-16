@@ -1,6 +1,12 @@
 language: node_js
 node_js:
+<<<<<<< HEAD
 - '4.6'
+=======
+- '0.10'
+- '4.2'
+- '6.2'
+>>>>>>> noflo_08
 script: npm test
 deploy:
   provider: npm

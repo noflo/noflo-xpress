@@ -2,10 +2,18 @@ noflo = require 'noflo'
 
 exports.getComponent = ->
   c = new noflo.Component
-  c.inPorts.add 'req', datatype: 'object', (event, payload) ->
-    return unless event is 'data'
-    payload.res.json 'Hello'
-  c.outPorts.add 'error', datatype: 'object'
+    inPorts:
+      req:
+        datatype: 'object'
+        control: true
+    outPorts:
+      error: datatype: 'object'
 
+  c.forwardBrackets =
+    filters: ['filters']
 
-  return c
+  c.process (input, output) ->
+    return unless input.has 'req'
+    req = input.getData 'req'
+    req.res.json 'Hello'
+    output.done()
