@@ -2,32 +2,38 @@ noflo = require 'noflo'
 express = require 'express'
 
 exports.getComponent = ->
-  component = new noflo.Component
-  component.description = "Express HTTP server"
+  c = new noflo.Component
+    description: 'Express HTTP server'
+    inPorts:
+      port:
+        datatype: 'int'
+        description: 'Port to start listening on'
+    outPorts:
+      app:
+        datatype: 'object'
+        type: 'http://expressjs.com/4x/api.html#app'
+        description: 'Express Application'
+      error:
+        datatype: 'object'
 
-  component.inPorts.add 'port',
-    datatype: 'int'
-    description: 'Port to start listening on'
-  , (event, port) ->
-    return unless event is 'data'
+  c.servers = []
+
+  c.shutdown = ->
+    for server in c.servers
+      server._connections = 0
+      server.close()
+
+  c.forwardBrackets =
+    port: ['app', 'error']
+
+  c.process (input, output) ->
+    return unless input.has 'port'
+    port = input.getData 'port'
+
     try
-      component.app = express()
-      component.server = component.app.listen port
-      component.outPorts.app.send component.app
-      component.outPorts.app.disconnect()
+      app = express()
+      c.servers[port.scope] = app.listen port
+      output.send app: app
+      output.done()
     catch e
-      return component.error new Error "Cannot listen on port #{port}:
-      #{e.message}"
-
-  component.outPorts.add 'app',
-    datatype: 'object'
-    type: 'http://expressjs.com/4x/api.html#app'
-    required: true
-    description: "Express Application"
-  component.outPorts.add 'error', datatype: 'object'
-
-  component.shutdown = ->
-    component.server._connections = 0
-    component.server.close()
-
-  component
+      return output.done new Error "Cannot listen on port #{port}:#{e.message}"

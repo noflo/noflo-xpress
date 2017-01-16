@@ -24,8 +24,8 @@ describe 'A Combo router with multiple filters', ->
       net = network
       done()
   after (done) ->
-    net.stop()
-    done()
+    net.stop ->
+      done()
 
   it 'should block unauthorized requests', (done) ->
     options =
