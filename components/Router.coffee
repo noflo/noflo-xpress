@@ -23,13 +23,11 @@ exports.getComponent = ->
       path:
         datatype: 'string'
         description: 'Restrict this branch to a specific URL /root'
-        required: true
         control: true
         default: '/'
       filters:
         datatype: 'array'
         description: 'Route filter middleware (omitted by default)'
-        required: true
         control: true
     outPorts:
       req:
@@ -48,18 +46,18 @@ exports.getComponent = ->
 
     # precondition
     return unless input.has 'app'
+    return unless input.has 'filters' if input.ports.filters.isAttached()
+    return unless input.has 'path' if input.ports.path.isAttached()
 
     # if attached, it has a filter
     if input.ports.filters.isAttached()
-      return unless input.has 'filters'
       hasFilter = true
       filters = input.getData 'filters'
 
     # if attached, it has a path
     if input.ports.path.isAttached()
-      return unless input.has 'path'
-      rootPath = input.getData 'path'
       hasPath = true
+      rootPath = input.getData 'path'
 
     # process...
     patterns = []
@@ -119,8 +117,9 @@ exports.getComponent = ->
           allDisconnected = false
 
     # if there are as many patterns as sockets
-    return unless pattern.length is input.ports.pattern.sockets.length
-    return unless allDisconnected
+    unless pattern.length is input.ports.pattern.sockets.length
+      return output.done()
+    return output.done() unless allDisconnected
 
     # go through every pattern, filter them
     for packet, index in input.buffer.get 'pattern'
@@ -132,3 +131,6 @@ exports.getComponent = ->
         return true if ip.owner isnt packet.owner
         return true if ip.groups isnt packet.groups
         return false
+
+    output.done()
+
