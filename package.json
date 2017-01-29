@@ -10,7 +10,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "coffee-script": "^1.12.1",
-    "express": "~4.14.0",
+    "express": "~5.0.0-alpha.3",
     "noflo": "0.x >= 0.5",
     "uuid": "^3.0.1"
   },
