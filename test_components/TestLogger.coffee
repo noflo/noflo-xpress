@@ -10,9 +10,7 @@ exports.getComponent = ->
 
   c.process (input, output) ->
     return unless input.hasStream 'in'
-    data = input.buffer.get('in')
-      .filter (ip) -> ip.type is 'data'
-      .pop()
-
-    console.log data if data?
+    data = input.getStream 'in'
+    for ip in data
+      console.log ip.data if ip.data
     output.done()

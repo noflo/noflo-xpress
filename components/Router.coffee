@@ -48,6 +48,10 @@ exports.getComponent = ->
     return unless input.hasData 'app'
     return unless input.hasData 'filters' if input.ports.filters.isAttached()
     return unless input.hasData 'path' if input.ports.path.isAttached()
+    # wait for all patterns to arrive
+    receivedPatterns = input.attached('pattern').filter (idx) ->
+      input.hasData ['pattern', idx]
+    return unless receivedPatterns.length is input.attached('pattern').length
 
     # if attached, it has a filter
     if input.ports.filters.isAttached()
@@ -63,12 +67,10 @@ exports.getComponent = ->
     patterns = []
     handlers = []
     app = input.getData 'app'
-    pattern = input.buffer.get 'pattern'
-      .filter (ip) -> ip.type is 'data'
-      .map (ip) -> ip.data
 
     # put the pattern input array<string>s into objects
-    for index, pat of pattern
+    for index in input.attached 'pattern'
+      pat = input.getData ['pattern', index]
       pat = pat.split /\s+/
       verb = if pat.length is 2 then pat[0] else 'all'
       path = if pat.length is 2 then pat[1] else pat[0]
@@ -106,31 +108,5 @@ exports.getComponent = ->
       app.use rootPath, router
     else
       app.use router
-
-    # clear our buffer state...
-
-    # check if all sockets have been detached
-    allDisconnected = true
-    if input.ports.pattern.isAttached()
-      for socket in input.ports.pattern.sockets
-        if socket.isConnected()
-          allDisconnected = false
-
-    # if there are as many patterns as sockets
-    unless pattern.length is input.ports.pattern.sockets.length
-      return output.done()
-    return output.done() unless allDisconnected
-
-    # go through every pattern, filter them
-    for packet, index in input.buffer.get 'pattern'
-      input.buffer.filter 'pattern', (ip) ->
-        return true if ip.type isnt packet.type
-        return true if ip.scope isnt packet.scope
-        return true if ip.data isnt packet.data
-        return true if ip.index isnt packet.index
-        return true if ip.owner isnt packet.owner
-        return true if ip.groups isnt packet.groups
-        return false
-
     output.done()
 

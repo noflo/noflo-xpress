@@ -1,6 +1,6 @@
 {
   "name": "noflo-xpress",
-  "version": "0.3.0",
+  "version": "0.3.0-beta1",
   "description": "High-level Express.js components for NoFlo",
   "author": "Rituwall Inc.",
   "repository": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "coffee-script": "^1.12.1",
     "express": "^4.14.0",
-    "noflo": "0.x >= 0.8",
+    "noflo": "^0.8.0-beta2",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
