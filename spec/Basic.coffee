@@ -24,8 +24,7 @@ describe 'A basic Express server in NoFlo', ->
       net = network
       done()
   after (done) ->
-    net.stop() if net
-    done()
+    net.stop done
 
   it 'should handle GET', (done) ->
     options =

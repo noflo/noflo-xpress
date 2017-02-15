@@ -1,7 +1,7 @@
 # Adding the app server
 '3032' -> PORT Server(xpress/Server)
-Server APP -> APP Private(xpress/FilterRouter)
-Server APP -> APP Public(xpress/PathRouter)
+Server APP -> APP Private(xpress/Router)
+Server APP -> APP Public(xpress/Router)
 
 # Static routing
 # '/private' -> PATH Private
