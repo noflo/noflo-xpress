@@ -1,17 +1,19 @@
 noflo-xpress
 ============
 
+[![Build Status](https://travis-ci.org/noflo/noflo-xpress.svg?branch=master)](https://travis-ci.org/noflo/noflo-xpress)
+
 High-level Express.js components for NoFlo
 
 ## Changelog
 
 #### 0.3.0
  - using process api in components & test_components
- - components/Router does not store state, components/Server saves server as scoped state for  shutdown()
- - using noflo 8
+ - components/Router does not store state, components/Server saves server as scoped state for shutdown()
+ - using noflo 0.8
  - only 1 router for everything, removed lib/
  - bumped express, uuid, and mocha dependencies
- - testing on 4.2 and 6.2 on Travis
+ - testing on 4.x and 6.x on Travis
 
 #### 0.2.2
  - bumped chai, noflo, and mocha dependencies
