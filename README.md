@@ -7,6 +7,9 @@ High-level Express.js components for NoFlo
 
 ## Changelog
 
+#### 0.4.0
+ - added RESTful Resource router component
+
 #### 0.3.0
  - using process api in components & test_components
  - components/Router does not store state, components/Server saves server as scoped state for shutdown()
