@@ -1,0 +1,26 @@
+# Adding the app server
+'3033' -> PORT Server(xpress/Server)
+Server APP -> APP TinyResource(xpress/Resource)
+Server APP -> APP FullResource(xpress/Resource)
+
+# With a few methods defined
+'/api/tiny' -> PATH TinyResource
+TinyResource INDEX -> REQ HelloGet(xpress/TestHello)
+TinyResource CREATE -> REQ WorldPost(xpress/TestWorld)
+
+# Complete RESTful routing
+'/api/full' -> PATH FullResource
+FullResource INDEX -> REQ HelloIndex(xpress/TestHello)
+FullResource SHOW -> REQ HelloShow(xpress/TestHello)
+FullResource CREATE -> REQ WorldCreate(xpress/TestWorld)
+FullResource UPDATE -> REQ WorldUpdate(xpress/TestWorld)
+FullResource DESTROY -> REQ HelloDelete(xpress/TestHello)
+
+# Passing a filter (optional) to the router
+'[]' -> FILTERS AuthFilter(xpress/TestFilter)
+'noflo' -> PASS AuthFilter
+AuthFilter FILTERS -> FILTERS FullResource
+
+# Server-level errors
+Server ERROR -> IN Logger(xpress/TestLogger)
+FullResource ERROR -> IN Logger
