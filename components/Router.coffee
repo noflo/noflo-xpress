@@ -33,7 +33,7 @@ exports.getComponent = ->
       req:
         datatype: 'object'
         type: 'http://expressjs.com/4x/api.html#req'
-        description: 'Express Request objects (contain responses)'
+        description: 'Express Request objects (contains responses)'
         addressable: true
       error:
         datatype: 'object'
