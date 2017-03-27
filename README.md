@@ -5,7 +5,22 @@ noflo-xpress
 
 High-level Express.js components for NoFlo
 
+## Installation
+
+```
+npm install --save noflo-xpress
+```
+
+## Usage Examples
+
+ - [Basic router](https://github.com/noflo/noflo-xpress/blob/master/test_graphs/BasicApp.fbp)
+ - [Advanced router](https://github.com/noflo/noflo-xpress/blob/master/test_graphs/RouterTest.fbp)
+ - [RESTful Resource](https://github.com/noflo/noflo-xpress/blob/master/test_graphs/ResourceTest.fbp)
+
 ## Changelog
+
+#### 0.4.0
+ - added RESTful Resource router component
 
 #### 0.3.0
  - using process api in components & test_components

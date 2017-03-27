@@ -1,6 +1,6 @@
 {
   "name": "noflo-xpress",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "High-level Express.js components for NoFlo",
   "author": "Rituwall Inc.",
   "repository": {
@@ -25,13 +25,6 @@
   },
   "noflo": {
     "icon": "globe",
-    "loader": "ComponentLoader.coffee",
-    "components": {
-      "ComboRouter": "components/ComboRouter.coffee",
-      "FilterRouter": "components/FilterRouter.coffee",
-      "PathRouter": "components/PathRouter.coffee",
-      "Router": "components/Router.coffee",
-      "Server": "components/Server.coffee"
-    }
+    "loader": "ComponentLoader.coffee"
   }
 }
