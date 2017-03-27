@@ -22,5 +22,9 @@
   "scripts": {
     "pretest": "coffeelint -r components test_components spec",
     "test": "mocha --compilers coffee:coffee-script/register --require coffee-script/register -R spec -t 2000 spec/*.coffee"
+  },
+  "noflo": {
+    "icon": "globe",
+    "loader": "ComponentLoader.coffee"
   }
 }
