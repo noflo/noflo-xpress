@@ -20,6 +20,9 @@ exports.getComponent = ->
     description: 'Express Application or Router'
     required: true
 
+  c.forwardBrackets =
+    app: ['app']
+
   c.process (input, output) ->
     return unless input.hasData 'app'
     limit = if input.hasData('limit') then input.getData('limit') else '1mb'
