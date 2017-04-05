@@ -7,7 +7,7 @@ deploy:
   provider: npm
   email: henri.bergius@iki.fi
   api_key:
-    secure: YnVUDCQqKxP6z/1Ztvq562lVFzMdeH5lyZabfYAg/8dZcu9DF3M6CACQtY7UvLY7zjgTP2++q+UQ5QpQ7ln4iaO1bpCZHuBnWnl0LjSveEcpEB5WleMn5ib2ZZw2F8M/7hSXlkfHZbBWBifw7/SGFk/suTkZcjytItd4GBCmu7c=
+    secure: KSkWvql83tN38gNJVKsHwNZkERSuzFPWWJ8jtJ9TQ3rTD3caAm64p4B6x1AK1GBviZae871PSHx3BVghMhfxGqnNh1oolruOt3YE2ynpXN5vQHbpp741qirSaSJlnF5Ipw897zeUi5wHs8/7hYq6I1PhXa6FmCQOnrucVvVbZkg=
   on:
     tags: true
     repo: noflo/noflo-xpress
