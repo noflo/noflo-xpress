@@ -19,6 +19,9 @@ npm install --save noflo-xpress
 
 ## Changelog
 
+#### 0.4.1
+ - fixed lifecycle for Server component
+
 #### 0.4.0
  - added RESTful Resource router component
 
