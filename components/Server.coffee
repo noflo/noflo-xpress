@@ -16,24 +16,31 @@ exports.getComponent = ->
       error:
         datatype: 'object'
 
-  c.servers = []
+  c.autoOrdering = false
+  c.servers = {}
+  c.context = {}
 
-  c.on 'end', ->
-    for server in c.servers
+  c.tearDown = (done) ->
+    for scope, server of c.servers
       server._connections = 0
       server.close()
+    for scope, context of c.context
+      context.deactivate()
+    c.servers = {}
+    c.context = {}
+    done()
 
   c.forwardBrackets =
     port: ['app', 'error']
 
-  c.process (input, output) ->
-    return unless input.has 'port'
+  c.process (input, output, context) ->
+    return unless input.hasData 'port'
     port = input.getData 'port'
 
     try
       app = express()
-      c.servers[port.scope] = app.listen port
+      c.context[input.scope] = context
+      c.servers[input.scope] = app.listen port
       output.send app: app
-      output.done()
     catch e
       return output.done new Error "Cannot listen on port #{port}:#{e.message}"
