@@ -18,4 +18,3 @@ AuthFilter FILTERS -> FILTERS Router
 # Server-level errors
 Server ERROR -> IN Logger(xpress/TestLogger)
 Router ERROR -> IN Logger
-Private ERROR -> IN Logger
