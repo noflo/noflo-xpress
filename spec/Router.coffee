@@ -23,8 +23,10 @@ describe 'A static Express Router in NoFlo', ->
       return done err if err
       net = network
       done()
+    return
   after (done) ->
     net.stop done
+    return
 
   describe 'for unfiltered routes', ->
     it 'should handle GET', (done) ->
