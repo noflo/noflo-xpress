@@ -23,8 +23,10 @@ describe 'A RESTful Resource router', ->
       return done err if err
       net = network
       done()
+    return
   after (done) ->
     net.stop done
+    return
 
   describe 'with limited methods and without a filter', ->
     it 'should Index', (done) ->

@@ -1,8 +1,6 @@
 noflo-xpress
 ============
 
-[![Build Status](https://travis-ci.org/noflo/noflo-xpress.svg?branch=master)](https://travis-ci.org/noflo/noflo-xpress)
-
 High-level Express.js components for NoFlo
 
 ## Installation

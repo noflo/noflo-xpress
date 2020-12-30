@@ -23,8 +23,10 @@ describe 'A basic Express server in NoFlo', ->
       return done err if err
       net = network
       done()
+    return
   after (done) ->
     net.stop done
+    return
 
   it 'should handle GET', (done) ->
     options =

@@ -23,8 +23,10 @@ describe 'A Combo router with multiple filters', ->
       return done err if err
       net = network
       done()
+    return
   after (done) ->
     net.stop done
+    return
 
   it 'should block unauthorized requests', (done) ->
     options =
