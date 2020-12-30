@@ -1,24 +1,17 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const noflo = require('noflo');
 const fs = require('fs');
 
-module.exports = function (loader, done) {
-  const dirs = [
-    'test_components',
-    'components',
-  ];
-  for (const dir of Array.from(dirs)) {
-    for (const file of Array.from(fs.readdirSync(`${__dirname}/${dir}`))) {
-      const m = file.match(/^(\w+)\.coffee$/);
-      if (!m) { continue; }
-      const path = `${__dirname}/${dir}/${file}`;
-      loader.registerComponent('xpress', m[1], path);
+module.exports = (loader, done) => {
+  fs.readdir(`${__dirname}/test_components`, (err, files) => {
+    if (err) {
+      done(err);
+      return;
     }
-  }
-  return done();
+    files.forEach((file) => {
+      const m = file.match(/^(\w+)\.js$/);
+      if (!m) { return; }
+      const path = `${__dirname}/test_components/${file}`;
+      loader.registerComponent('xpress', m[1], path);
+    });
+    done();
+  });
 };

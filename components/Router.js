@@ -1,16 +1,10 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 const express = require('express');
 const uuid = require('uuid');
 
 const validVerbs = ['all', 'get', 'post', 'put', 'delete', 'options', 'patch', 'head'];
 
-exports.getComponent = function () {
+exports.getComponent = () => {
   const c = new noflo.Component({
     description: 'Static index-based Express router',
     inPorts: {
@@ -23,8 +17,7 @@ exports.getComponent = function () {
       },
       pattern: {
         datatype: 'string',
-        description: 'Request patterns as `verb /path` \
-or just `/path` meaning verb is `all`',
+        description: 'Request patterns as `verb /path` or just `/path` meaning verb is `all`',
         addressable: true,
         required: true,
       },
@@ -56,8 +49,8 @@ or just `/path` meaning verb is `all`',
 
   return c.process((input, output) => {
     // scoped variables for conditionals
-    let filters; let index; let pat; let path; let rootPath; let
-      verb;
+    let filters;
+    let rootPath;
     let hasPath = false;
     let hasFilter = false;
 
@@ -87,16 +80,20 @@ or just `/path` meaning verb is `all`',
     const app = input.getData('app');
 
     // put the pattern input array<string>s into objects
-    for (index of Array.from(input.attached('pattern'))) {
-      pat = input.getData(['pattern', index]);
+    const indices = input.attached('pattern');
+    for (let i = 0; i < indices.length; i += 1) {
+      const index = indices[i];
+      let pat = input.getData(['pattern', index]);
       pat = pat.split(/\s+/);
-      verb = pat.length === 2 ? pat[0] : 'all';
-      path = pat.length === 2 ? pat[1] : pat[0];
+      const verb = pat.length === 2 ? pat[0] : 'all';
+      const path = pat.length === 2 ? pat[1] : pat[0];
       if (!(validVerbs.indexOf(verb) >= 0)) {
-        return output.done(new Error(`Invalid HTTP verb: '${verb}'`));
+        output.done(new Error(`Invalid HTTP verb: '${verb}'`));
+        return;
       }
       if (!path) {
-        return output.done(new Error(`Incorrect HTTP path: '${path}'`));
+        output.done(new Error(`Incorrect HTTP path: '${path}'`));
+        return;
       }
       patterns[Number(index)] = {
         verb,
@@ -107,13 +104,16 @@ or just `/path` meaning verb is `all`',
     const router = express.Router();
 
     // Adding the routes here
-    for (index = 0; index < patterns.length; index++) {
-      pat = patterns[index];
-      (function (pat, index) {
+    for (let idx = 0; idx < patterns.length; idx += 1) {
+      ((pat, index) => {
         if (pat === undefined) { return; }
 
         const id = uuid.v4();
-        handlers[index] = (req, res, next) => output.ports.req.send(new noflo.IP('data', req, { scope: id }), index);
+        handlers[index] = (req) => {
+          output.ports.req.send(new noflo.IP('data', req, {
+            scope: id,
+          }), index);
+        };
 
         const func = router[pat.verb];
         // Set request uuid
@@ -123,12 +123,12 @@ or just `/path` meaning verb is `all`',
           return next();
         });
         if (hasFilter && Array.isArray(filters)) {
-          for (const filter of Array.from(filters)) {
+          filters.forEach((filter) => {
             func.call(router, pat.path, filter);
-          }
+          });
         }
-        return func.call(router, pat.path, handlers[index]);
-      }(pat, index));
+        func.call(router, pat.path, handlers[index]);
+      })(patterns[idx], idx);
     }
 
     if (hasPath && rootPath) {
@@ -136,6 +136,6 @@ or just `/path` meaning verb is `all`',
     } else {
       app.use(router);
     }
-    return output.done();
+    output.done();
   });
 };

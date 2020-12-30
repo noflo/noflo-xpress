@@ -1,18 +1,14 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 const chai = require('chai');
 const http = require('http');
 const uuid = require('uuid');
-const express = require('express');
 
 const getResultJSON = function (res, callback) {
   let data = '';
-  res.on('data', (chunk) => data += chunk);
-  return res.on('end', () => {
+  res.on('data', (chunk) => {
+    data += chunk;
+  });
+  res.on('end', () => {
     try {
       const json = JSON.parse(data);
       return callback(json);
@@ -27,9 +23,12 @@ describe('A static Express Router in NoFlo', () => {
 
   before((done) => {
     noflo.loadFile('test_graphs/RouterTest.fbp', {}, (err, network) => {
-      if (err) { return done(err); }
+      if (err) {
+        done(err);
+        return;
+      }
       net = network;
-      return done();
+      done();
     });
   });
   after((done) => {
@@ -47,21 +46,22 @@ describe('A static Express Router in NoFlo', () => {
       try {
         const req = http.request(options, (res) => {
           if (res.statusCode !== 200) {
-            return done(new Error(`Invalid status code: ${res.statusCode}`));
+            done(new Error(`Invalid status code: ${res.statusCode}`));
+            return;
           }
-          return getResultJSON(res, (json) => {
+          getResultJSON(res, (json) => {
             chai.expect(json).to.be.a('string');
             chai.expect(json).to.equal('Hello');
-            return done();
+            done();
           });
         });
-        return req.end();
+        req.end();
       } catch (e) {
-        return done(e);
+        done(e);
       }
     });
 
-    return it('should handle POST', (done) => {
+    it('should handle POST', (done) => {
       const newUserEmail = `john${uuid.v4().substr(0, 16)}@example.com`;
       const reqData = JSON.stringify({ email: newUserEmail });
       const options = {
@@ -76,24 +76,25 @@ describe('A static Express Router in NoFlo', () => {
       try {
         const req = http.request(options, (res) => {
           if (res.statusCode !== 201) {
-            return done(new Error(`Invalid status code: ${res.statusCode}`));
+            done(new Error(`Invalid status code: ${res.statusCode}`));
+            return;
           }
-          return getResultJSON(res, (json) => {
+          getResultJSON(res, (json) => {
             chai.expect(json).to.be.an('object');
             chai.expect(json.email).to.be.a('string');
             chai.expect(json.email).to.equal(newUserEmail);
-            return done();
+            done();
           });
         });
         req.write(reqData);
-        return req.end();
+        req.end();
       } catch (e) {
-        return done(e);
+        done(e);
       }
     });
   });
 
-  return describe('for filtered routes', () => {
+  describe('for filtered routes', () => {
     it('should block unauthorized requests', (done) => {
       const options = {
         hostname: 'localhost',
@@ -104,11 +105,11 @@ describe('A static Express Router in NoFlo', () => {
       try {
         const req = http.request(options, (res) => {
           chai.expect(res.statusCode).to.equal(403);
-          return done();
+          done();
         });
-        return req.end();
+        req.end();
       } catch (e) {
-        return done(e);
+        done(e);
       }
     });
 
@@ -125,21 +126,22 @@ describe('A static Express Router in NoFlo', () => {
       try {
         const req = http.request(options, (res) => {
           if (res.statusCode !== 200) {
-            return done(new Error(`Invalid status code: ${res.statusCode}`));
+            done(new Error(`Invalid status code: ${res.statusCode}`));
+            return;
           }
-          return getResultJSON(res, (json) => {
+          getResultJSON(res, (json) => {
             chai.expect(json).to.be.a('string');
             chai.expect(json).to.equal('Hello');
-            return done();
+            done();
           });
         });
-        return req.end();
+        req.end();
       } catch (e) {
-        return done(e);
+        done(e);
       }
     });
 
-    return it('should handle POST', (done) => {
+    it('should handle POST', (done) => {
       const newUserEmail = `john${uuid.v4().substr(0, 16)}@example.com`;
       const reqData = JSON.stringify({ email: newUserEmail });
       const options = {
@@ -155,19 +157,19 @@ describe('A static Express Router in NoFlo', () => {
       try {
         const req = http.request(options, (res) => {
           if (res.statusCode !== 201) {
-            return done(new Error(`Invalid status code: ${res.statusCode}`));
+            done(new Error(`Invalid status code: ${res.statusCode}`));
           }
-          return getResultJSON(res, (json) => {
+          getResultJSON(res, (json) => {
             chai.expect(json).to.be.an('object');
             chai.expect(json.email).to.be.a('string');
             chai.expect(json.email).to.equal(newUserEmail);
-            return done();
+            done();
           });
         });
         req.write(reqData);
-        return req.end();
+        req.end();
       } catch (e) {
-        return done(e);
+        done(e);
       }
     });
   });

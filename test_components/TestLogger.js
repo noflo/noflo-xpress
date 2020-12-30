@@ -1,12 +1,6 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 
-exports.getComponent = function () {
+exports.getComponent = () => {
   const c = new noflo.Component({
     description: 'Simply logs everything to the console',
     inPorts: {
@@ -20,9 +14,10 @@ exports.getComponent = function () {
   return c.process((input, output) => {
     if (!input.hasStream('in')) { return; }
     const data = input.getStream('in');
-    for (const ip of Array.from(data)) {
+    data.forEach((ip) => {
+      // eslint-disable-next-line no-console
       if (ip.data) { console.log(ip.data); }
-    }
-    return output.done();
+    });
+    output.done();
   });
 };

@@ -1,12 +1,7 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 const express = require('express');
 
-exports.getComponent = function () {
+exports.getComponent = () => {
   const c = new noflo.Component({
     description: 'Express HTTP server',
     inPorts: {
@@ -31,21 +26,19 @@ exports.getComponent = function () {
   c.servers = {};
   c.context = {};
 
-  c.tearDown = function (done) {
-    let context; let
-      scope;
-    for (scope in c.servers) {
+  c.tearDown = (done) => {
+    Object.keys(c.servers).forEach((scope) => {
       const server = c.servers[scope];
-      server._connections = 0;
+      server._connections = 0; // eslint-disable-line no-underscore-dangle
       server.close();
-    }
-    for (scope in c.context) {
-      context = c.context[scope];
+    });
+    Object.keys(c.context).forEach((scope) => {
+      const context = c.context[scope];
       context.deactivate();
-    }
+    });
     c.servers = {};
     c.context = {};
-    return done();
+    done();
   };
 
   c.forwardBrackets = { port: ['app', 'error'] };
@@ -58,9 +51,9 @@ exports.getComponent = function () {
       const app = express();
       c.context[input.scope] = context;
       c.servers[input.scope] = app.listen(port);
-      return output.send({ app });
+      output.send({ app });
     } catch (e) {
-      return output.done(new Error(`Cannot listen on port ${port}:${e.message}`));
+      output.done(new Error(`Cannot listen on port ${port}:${e.message}`));
     }
   });
 };

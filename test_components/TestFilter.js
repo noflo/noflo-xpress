@@ -1,11 +1,6 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 
-exports.getComponent = function () {
+exports.getComponent = () => {
   const c = new noflo.Component({
     inPorts: {
       pass: {
@@ -42,6 +37,6 @@ exports.getComponent = function () {
 
     c.outPorts.filters.send(filters);
     c.outPorts.filters.disconnect();
-    return output.done();
+    output.done();
   });
 };

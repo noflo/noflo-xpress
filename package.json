@@ -28,6 +28,6 @@
   },
   "noflo": {
     "icon": "globe",
-    "loader": "ComponentLoader.coffee"
+    "loader": "ComponentLoader.js"
   }
 }

@@ -1,14 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 const express = require('express');
 const uuid = require('uuid');
 
-exports.getComponent = function () {
+exports.getComponent = () => {
   const c = new noflo.Component({
     description: 'RESTful resource router',
     inPorts: {
@@ -86,22 +80,24 @@ exports.getComponent = function () {
     const app = input.getData('app');
     const rootPath = input.getData('path');
 
-    const sendReq = function (port, req) {
+    const sendReq = (port, req) => {
       const map = {};
       map[port] = new noflo.IP('data', req, { scope: uuid.v4() });
-      return output.send(map);
+      output.send(map);
     };
 
-    const mountMethod = function (router, port, verb) {
-      if (!c.outPorts[port].isAttached()) { return router; }
-      return router[verb].call(router, (req, res, next) => sendReq(port, req));
+    const mountMethod = (router, port, verb) => {
+      if (!c.outPorts[port].isAttached()) {
+        return;
+      }
+      router[verb].call(router, (req) => sendReq(port, req));
     };
 
     const router = express.Router();
     if (hasFilter && Array.isArray(filters)) {
-      for (const filter of Array.from(filters)) {
+      filters.forEach((filter) => {
         router.use(filter);
-      }
+      });
     }
 
     const root = router.route(rootPath);
@@ -115,6 +111,6 @@ exports.getComponent = function () {
     mountMethod(item, 'destroy', 'delete');
 
     app.use(router);
-    return output.done();
+    output.done();
   });
 };

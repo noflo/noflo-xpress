@@ -1,14 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 const https = require('https');
 const express = require('express');
 
-exports.getComponent = function () {
+exports.getComponent = () => {
   const c = new noflo.Component({
     description: 'Express HTTPS server',
     inPorts: {
@@ -37,37 +31,35 @@ exports.getComponent = function () {
   c.servers = {};
   c.context = {};
 
-  c.tearDown = function (done) {
-    let context; let
-      scope;
-    for (scope in c.servers) {
+  c.tearDown = (done) => {
+    Object.keys(c.servers).forEach((scope) => {
       const server = c.servers[scope];
-      server._connections = 0;
+      server._connections = 0; // eslint-disable-line no-underscore-dangle
       server.close();
-    }
-    for (scope in c.context) {
-      context = c.context[scope];
+    });
+    Object.keys(c.context).forEach((scope) => {
+      const context = c.context[scope];
       context.deactivate();
-    }
+    });
     c.servers = {};
     c.context = {};
-    return done();
+    done();
   };
 
   c.forwardBrackets = { port: ['app', 'error'] };
 
   return c.process((input, output, context) => {
     if (!input.hasData('config', 'port')) { return; }
-    const [config, port] = Array.from(input.getData('config', 'port'));
+    const [config, port] = input.getData('config', 'port');
 
     try {
       const app = express();
       const server = https.createServer(config, app);
       c.context[input.scope] = context;
       c.servers[input.scope] = server.listen(port);
-      return output.send({ app });
+      output.send({ app });
     } catch (e) {
-      return output.done(new Error(`Cannot listen on port ${port}:${e.message}`));
+      output.done(new Error(`Cannot listen on port ${port}:${e.message}`));
     }
   });
 };

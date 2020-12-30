@@ -1,8 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const noflo = require('noflo');
 
 exports.getComponent = function () {
@@ -36,9 +31,9 @@ exports.getComponent = function () {
       c.outPorts.app.send(app);
       c.outPorts.app.disconnect();
     } catch (e) {
-      return output.done(new Error(`Could not setup server: ${e.message}`));
+      output.done(new Error(`Could not setup server: ${e.message}`));
     }
 
-    return output.done();
+    output.done();
   });
 };
