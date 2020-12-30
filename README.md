@@ -17,6 +17,12 @@ npm install --save noflo-xpress
 
 ## Changelog
 
+#### 0.6.0
+ - Migrated from CoffeeScript to modern JavaScript
+
+#### 0.5.0
+ - Updated for NoFlo 1.x
+
 #### 0.4.1
  - fixed lifecycle for Server component
 
