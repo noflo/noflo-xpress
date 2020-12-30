@@ -2,7 +2,7 @@
   "name": "noflo-xpress",
   "version": "0.5.0",
   "description": "High-level Express.js components for NoFlo",
-  "author": "Rituwall Inc.",
+  "author": "Flowhub UG",
   "repository": {
     "type": "git",
     "url": "git://github.com/noflo/noflo-xpress.git"
